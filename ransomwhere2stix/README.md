@@ -160,23 +160,6 @@ The relevant data for ransomwhere2stix:
 
 ### Some notes
 
-**Amount values**
-
-The `transactions.amount` is reported in the currency of the transaction without a decimal place. To get the transaction amount in the currency, divide it by 100,000,000,
-
-```
-      "transactions": [
-        {
-          "hash": "53ee7e07e3cad3b00c5cb0f7af12bf2026721477c78a36be80d55c36721573de",
-          "time": 1622040704,
-          "amount": 1106600000,
-          "amountUSD": 434829.6085574541
-        }
-      ],
-```
-
-e.g. `1106600000/100000000` = 11.066 BTC ([which matches the block record](https://www.blockchain.com/explorer/transactions/btc/53ee7e07e3cad3b00c5cb0f7af12bf2026721477c78a36be80d55c36721573de))
-
 **Malware wallet relationships**
 
 The wallets are linked to Malware and not Actors in this database. That means many bad actors might be using a malware family specified (but we don't know what actor owns what wallet). This is where future improvements could be made to this script by looking up actors linked to a wallet and modelling actors in this graph too.
@@ -228,11 +211,6 @@ For every distinct `address` returned by the API a `cryptocurrency-wallet` is cr
     "spec_version": "2.1",
     "id": "cryptocurrency-wallet--<UUID V5>",
     "address": "<DISTINCT ADDRESS FROM API>",
-    "object_marking_refs": [
-        "marking-definition--904ac99b-7539-5de7-9ffa-23186f0e07b6",
-        "marking-definition--27557362-b745-4161-96e8-ccd62ce4cb26",
-        "marking-definition--94868c89-83c2-464b-929b-a1a8aa3c8487"
-    ],
     "extensions": {
         "extension-definition--be78509e-6958-51b1-8b26-d17ee0eba2d7": {
             "extension_type": "new-sco"
@@ -258,17 +236,12 @@ For every distinct `transaction` returned by the API a `cryptocurrency-transacti
     "output": [
         {
             "address_ref": "cryptocurrency-wallet--<ADDRESS OF STIX WALLET OBJECT>",
-            "amount": "<transactions.amount>"
+            "amount": "<transactions.amount> / 100000000"
         },
         {
             "address_ref": "cryptocurrency-wallet--<ADDRESS OF STIX WALLET OBJECT>",
-            "amount": "<transactions.amount>"
+            "amount": "<transactions.amount> / 100000000"
         }
-    ],
-    "object_marking_refs": [
-        "marking-definition--904ac99b-7539-5de7-9ffa-23186f0e07b6",
-        "marking-definition--27557362-b745-4161-96e8-ccd62ce4cb26",
-        "marking-definition--94868c89-83c2-464b-929b-a1a8aa3c8487"
     ],
     "extensions": {
         "extension-definition--151d042d-4dcf-5e44-843f-1024440318e5": {

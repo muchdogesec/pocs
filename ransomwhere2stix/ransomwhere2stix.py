@@ -82,11 +82,6 @@ def get_wallet_object(address):
     return CryptocurrencyWallet(
         id=generate_stix_id("cryptocurrency-wallet", address),
         address=address,
-        object_marking_refs=[
-            "marking-definition--904ac99b-7539-5de7-9ffa-23186f0e07b6",
-            "marking-definition--27557362-b745-4161-96e8-ccd62ce4cb26",
-            "marking-definition--94868c89-83c2-464b-929b-a1a8aa3c8487"
-        ],
         extensions={
             "extension-definition--be78509e-6958-51b1-8b26-d17ee0eba2d7": {
                 "extension_type": "new-sco"
@@ -95,18 +90,13 @@ def get_wallet_object(address):
     )
 
 def get_transaction_object(transaction_hash, transactions, blockchain):
-    outputs = [{"address_ref": tx['wallet_id'], "amount": tx['amount']} for tx in transactions]
+    outputs = [{"address_ref": tx['wallet_id'], "amount": tx['amount'] / 100000000} for tx in transactions]  # Adjust the amount
     return CryptocurrencyTransaction(
         id=generate_stix_id("cryptocurrency-transaction", transaction_hash),
         symbol="BTC" if blockchain.lower() == "bitcoin" else blockchain,
         hash=transaction_hash,
         execution_time=convert_epoch_to_datetime(transactions[0]['time']),
         output=outputs,
-        object_marking_refs=[
-            "marking-definition--904ac99b-7539-5de7-9ffa-23186f0e07b6",
-            "marking-definition--27557362-b745-4161-96e8-ccd62ce4cb26",
-            "marking-definition--94868c89-83c2-464b-929b-a1a8aa3c8487"
-        ],
         extensions={
             "extension-definition--151d042d-4dcf-5e44-843f-1024440318e5": {
                 "extension_type": "new-sco"
